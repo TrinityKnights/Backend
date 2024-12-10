@@ -10,7 +10,7 @@ type Event struct {
 	Name        string    `json:"name" gorm:"not null"`
 	Description string    `json:"description"`
 	Date        time.Time `json:"date" gorm:"not null"`
-	Time        time.Time `json:"time" gorm:"not null"`
+	Time        string `json:"time" gorm:"not null"`
 	VenueID     uint      `json:"venue_id" gorm:"not null"`
 	Venue       Venue     `json:"venue" gorm:"foreignKey:VenueID"`
 	gorm.Model

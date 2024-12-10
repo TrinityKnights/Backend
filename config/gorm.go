@@ -2,12 +2,13 @@ package config
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"time"
 )
 
 // NewDatabase creates a new database connection

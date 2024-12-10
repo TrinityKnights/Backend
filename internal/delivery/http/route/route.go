@@ -1,6 +1,7 @@
 package route
 
 import (
+	"github.com/TrinityKnights/Backend/internal/delivery/http/handler/event"
 	"github.com/TrinityKnights/Backend/internal/delivery/http/handler/user"
 	"github.com/TrinityKnights/Backend/pkg/route"
 	"github.com/labstack/echo/v4"
@@ -16,6 +17,7 @@ type RouteConfig interface {
 type Config struct {
 	App         *echo.Echo
 	UserHandler *user.UserHandlerImpl
+	EventHandler *event.EventHandlerImpl
 }
 
 func (c *Config) PublicRoute() []route.Route {
@@ -34,6 +36,11 @@ func (c *Config) PublicRoute() []route.Route {
 			Method:  echo.POST,
 			Path:    "/users/refresh",
 			Handler: c.UserHandler.RefreshToken,
+		},
+		{
+			Method:  echo.GET,
+			Path:    "/event/:id",
+			Handler: c.EventHandler.GetEventWithDetails,
 		},
 	}
 }

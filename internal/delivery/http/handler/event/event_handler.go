@@ -1,0 +1,7 @@
+package event
+
+import "github.com/labstack/echo/v4"
+
+type EventService interface {
+	GetEventWithDetails(ctx echo.Context, id uint) error
+}

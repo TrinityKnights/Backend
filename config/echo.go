@@ -2,11 +2,12 @@ package config
 
 import (
 	"context"
-	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 )
 
 func NewEcho() (*echo.Echo, *logrus.Logger) {

@@ -3,10 +3,13 @@ package config
 import (
 	"github.com/TrinityKnights/Backend/internal/builder"
 	handlerUser "github.com/TrinityKnights/Backend/internal/delivery/http/handler/user"
+	handlerEvent "github.com/TrinityKnights/Backend/internal/delivery/http/handler/event"
 	"github.com/TrinityKnights/Backend/internal/delivery/http/middleware"
 	"github.com/TrinityKnights/Backend/internal/delivery/http/route"
 	repositoryUser "github.com/TrinityKnights/Backend/internal/repository/user"
+	repositoryEvent "github.com/TrinityKnights/Backend/internal/repository/event"
 	serviceUser "github.com/TrinityKnights/Backend/internal/service/user"
+	serviceEvent "github.com/TrinityKnights/Backend/internal/service/event"
 	"github.com/TrinityKnights/Backend/pkg/cache"
 	"github.com/TrinityKnights/Backend/pkg/jwt"
 	"github.com/go-playground/validator/v10"
@@ -30,12 +33,16 @@ func Bootstrap(config *BootstrapConfig) error {
 
 	// Initialize repository
 	userRepository := repositoryUser.NewUserRepository(config.DB, config.Log)
+	eventRepository := repositoryEvent.NewEventRepository(config.DB)
 
 	// Initialize service
 	userService := serviceUser.NewUserServiceImpl(config.DB, config.Log, config.Validate, userRepository, jwtService)
+	eventService := serviceEvent.NewEventServiceImpl(config.DB, config.Log, config.Validate, eventRepository, jwtService)
+
 
 	// Initialize handler
 	userHandler := handlerUser.NewUserHandler(config.Log, userService)
+	eventHandler := handlerEvent.NewEventHandler(eventService)
 
 	// Initialize graphql
 
@@ -46,12 +53,14 @@ func Bootstrap(config *BootstrapConfig) error {
 	routeConfig := route.Config{
 		App:         config.App,
 		UserHandler: userHandler,
+		EventHandler: eventHandler,  
 	}
 
 	// Build routes
 	b := builder.Config{
 		App:            config.App,
 		UserHandler:    userHandler,
+		EventHandler:   eventHandler,
 		AuthMiddleware: authMiddleware,
 		Routes:         &routeConfig,
 	}

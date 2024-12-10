@@ -1,6 +1,7 @@
 package builder
 
 import (
+	"github.com/TrinityKnights/Backend/internal/delivery/http/handler/event"
 	"github.com/TrinityKnights/Backend/internal/delivery/http/handler/user"
 	"github.com/TrinityKnights/Backend/internal/delivery/http/route"
 	"github.com/labstack/echo/v4"
@@ -10,6 +11,7 @@ import (
 type Config struct {
 	App            *echo.Echo
 	UserHandler    *user.UserHandlerImpl
+	EventHandler   *event.EventHandlerImpl
 	AuthMiddleware echo.MiddlewareFunc
 	Routes         *route.Config
 }
