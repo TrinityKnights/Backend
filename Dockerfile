@@ -1,5 +1,5 @@
 #stage1
-FROM golang:1.21-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
 
 #install dependencies
@@ -17,7 +17,7 @@ COPY . .
 
 # Set necessary environment variables needed for our image and build the API server.
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
-RUN go build -ldflags="-s -w" -o ticketing ./cmd/app
+RUN go build -ldflags="-s -w" -o trinityknights.backend ./cmd/app
 
 #stage2
 FROM scratch
@@ -26,11 +26,10 @@ FROM scratch
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Copy binary and config files from /build to root folder of scratch container.
-COPY --from=builder ["/build/ticketing", "/"]
+COPY --from=builder ["/build/trinityknights.backend", "/"]
 
 # Command to run when starting the container.
-ENTRYPOINT ["/ticketing"]
+ENTRYPOINT ["/trinityknights.backend"]
 
 # Expose port 3000 to the outside world.
 EXPOSE 3000
-

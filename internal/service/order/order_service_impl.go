@@ -96,11 +96,11 @@ func (s *OrderServiceImpl) CreateOrder(ctx context.Context, request *model.Order
 	s.Log.Infof("Verifying tickets - IDs: %v, Seats: %v", request.TicketIDs, request.SeatNumbers)
 
 	for _, ticketID := range request.TicketIDs {
-		var ticket entity.Ticket
+		var t entity.Ticket
 		// Lock individual ticket for update
 		if err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).
 			Where("id = ? AND order_id IS NULL", ticketID).
-			First(&ticket).Error; err != nil {
+			First(&t).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return nil, domainErrors.ErrSeatAlreadyTaken
 			}
@@ -109,8 +109,8 @@ func (s *OrderServiceImpl) CreateOrder(ctx context.Context, request *model.Order
 		}
 
 		// Add ticket to our target tickets slice
-		targetTickets = append(targetTickets, &ticket)
-		totalPrice += ticket.Price
+		targetTickets = append(targetTickets, &t)
+		totalPrice += t.Price
 	}
 
 	// Convert pointer slice to value slice

@@ -1,3 +1,7 @@
+.PHONY: clean swag mockgen critic security test
+.PHONY: docker.build docker.run docker.stop
+.PHONY: dc.build dc.up dc.down
+
 APP_NAME = trinityknights.backend
 APP_VERSION = 0.0.1
 
@@ -42,6 +46,4 @@ dc.up: dc.build
 
 dc.down:
 	docker compose down
-
-mockgen:
-	sh ./bin/generate-mock.sh
+	
