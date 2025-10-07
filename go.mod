@@ -6,7 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.57
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/go-playground/validator/v10 v10.23.0
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.0
 	github.com/redis/go-redis/v9 v9.7.0
